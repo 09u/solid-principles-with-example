@@ -1,8 +1,4 @@
 <p align="center">
-    <img src="https://github.com/09u/solid-principles-with-example/blob/master/solid.png" width="500"/>
-</p>
-
-<p align="center">
     <img src="./solid.png" width="500"/>
 </p>
 
@@ -29,3 +25,7 @@ For each principle, there are two files in the Sources folder;
  - **good** files: related principle applied version of the case
 
 to show the difference in a simple and clear way.
+
+
+
+P.S.: *thanks to [digitalocean SOLID principle](https://www.digitalocean.com/community/conceptual_articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design) article.*
