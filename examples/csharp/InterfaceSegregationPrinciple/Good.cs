@@ -1,9 +1,92 @@
 using System;
 using System.Text.Json;
-using Model;
 
 namespace ISP.Good
 {
+    public interface IShape
+    {
+        double Area();
+    }
+
+    public interface IThreeDimensionalShape
+    {
+        double Volume();    
+    }
+
+    public interface IManageShape
+    {
+        double Calculate();    
+    }
+
+
+    public class Circle: IShape, IManageShape
+    {
+        public int Radius { get; private set; }
+
+        public Circle(int radius)
+        {
+            this.Radius = radius;
+        }
+
+        public double Area()
+        {
+            return Math.PI * Math.Pow(this.Radius, 2);
+        }
+
+        public double Calculate()
+        {
+            return this.Area();
+        }
+    }
+
+
+    public class Square: IShape, IManageShape
+    {
+        public int Length { get; private set; }
+
+        public Square(int length)
+        {
+            this.Length = length;
+        }
+
+        public double Area()
+        {
+            return this.Length * this.Length;
+        }
+
+        public double Calculate()
+        {
+            return this.Area();
+        } 
+    }
+
+
+    public class Cube: IShape, IThreeDimensionalShape, IManageShape
+    {
+        public int Length { get; private set; }
+
+        public Cube(int length)
+        {
+            this.Length = length;
+        }
+
+        public double Area()
+        {
+            return 6 * Math.Pow(this.Length, 2);
+        }
+
+        public double Volume()
+        {
+            return Math.Pow(this.Length, 3);
+        }
+
+        public double Calculate()
+        {
+            return this.Area();
+        }
+    }
+
+
     public class AreaCalculator
     {
         protected List<IShape> shapes = null;
@@ -20,14 +103,37 @@ namespace ISP.Good
                 return 0;
             
             foreach (var shape in this.shapes)
-                if (shape is IShape)
-                    sumArea += shape.Area();
+                if (shape is IManageShape)
+                    sumArea += ((IManageShape)shape).Calculate();
                 else
                     throw new Exception("Unsuitable Class");
             
             return sumArea;
         }
     }
+
+
+    public class VolumeCalculator: AreaCalculator
+    {
+        // private List<IShape> shapes;
+
+        public VolumeCalculator(List<IShape> shapes) : base(shapes)
+        {
+            // this.shapes = shapes;
+        }
+
+        public override double Sum()
+        {
+            double sumVol = 0.0;
+            
+            foreach (var shape in this.shapes)
+                if(shape is IThreeDimensionalShape)
+                    sumVol += ((IThreeDimensionalShape)shape).Volume();
+
+            return sumVol;
+        }
+    }
+
 
     public class SumCalculatorOutputter
     {
@@ -52,29 +158,6 @@ namespace ISP.Good
         {
             return String.Format("Sum of the areas of provided shapes: {0:0.00}", 
                 this.calculator.Sum());
-        }
-    }
-
-    public class VolumeCalculator: AreaCalculator
-    {
-        // private List<IShape> shapes;
-
-        public VolumeCalculator(List<IShape> shapes) : base(shapes)
-        {
-            // this.shapes = shapes;
-        }
-
-        public override double Sum()
-        {
-            double sumVol = 0.0;
-            
-            foreach (var shape in this.shapes)
-                if(shape is IThreeDimensionalShape)
-                    sumVol += ((IThreeDimensionalShape)shape).Volume();
-                else
-                    throw new Exception("Not IThreeDimensionalShape class");
-
-            return sumVol;
         }
     }
 }

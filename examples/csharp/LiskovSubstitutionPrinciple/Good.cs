@@ -1,9 +1,44 @@
 using System;
 using System.Text.Json;
-using Model;
 
 namespace LSP.Good
 {
+    public interface IShape
+    {
+        double Area();
+    }
+
+    public class Circle: IShape
+    {
+        public int Radius { get; private set; }
+
+        public Circle(int radius)
+        {
+            this.Radius = radius;
+        }
+
+        public double Area()
+        {
+            return Math.PI * Math.Pow(this.Radius, 2);
+        }
+    }
+
+    public class Square: IShape
+    {
+        public int Length { get; private set; }
+
+        public Square(int length)
+        {
+            this.Length = length;
+        }
+
+        public double Area()
+        {
+            return this.Length * this.Length;
+        }
+
+    }
+
     public class AreaCalculator
     {
         protected List<IShape> shapes = null;
@@ -31,6 +66,29 @@ namespace LSP.Good
         }
     }
 
+    public class VolumeCalculator: AreaCalculator
+    {
+        // private List<IShape> shapes;
+
+        public VolumeCalculator(List<IShape> shapes) : base(shapes)
+        {
+            // this.shapes = shapes;
+        }
+
+        public override double Sum()
+        {
+            double sumVol = 0.0;
+            
+            foreach (var shape in this.shapes)
+                if(shape is IShape)
+                    sumVol += 0;
+                else
+                    throw new Exception("Not IShape class");
+
+            return sumVol;
+        }
+    }
+
     public class SumCalculatorOutputter
     {
         private AreaCalculator calculator;
@@ -55,29 +113,6 @@ namespace LSP.Good
             return String.Format("Sum of the areas of provided shapes: {0:0.00}", 
                 this.calculator.Sum());
 
-        }
-    }
-
-    public class VolumeCalculator: AreaCalculator
-    {
-        // private List<IShape> shapes;
-
-        public VolumeCalculator(List<IShape> shapes) : base(shapes)
-        {
-            // this.shapes = shapes;
-        }
-
-        public override double Sum()
-        {
-            double sumVol = 0.0;
-            
-            foreach (var shape in this.shapes)
-                if(shape is IThreeDimensionalShape)
-                    sumVol += ((IThreeDimensionalShape)shape).Volume();
-                else
-                    throw new Exception("Not IThreeDimensionalShape class");
-
-            return sumVol;
         }
     }
 }

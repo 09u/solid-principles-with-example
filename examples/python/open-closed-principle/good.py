@@ -1,22 +1,41 @@
-import sys
-import os
+# import sys
+# import os
 
-sys.path.append(os.path.abspath(os.path.join(
-    os.path.dirname(__file__), '..')
-))
+# sys.path.append(os.path.abspath(os.path.join(
+#     os.path.dirname(__file__), '..')
+# ))
 
-import math
+import abc
 import json
-from models.ShapeInterface import ShapeInterface
-from models.Circle import Circle
-from models.Square import Square
+import math
+
+
+class ShapeInterface(metaclass=abc.ABCMeta):
+    def area(self)->float:
+        raise NotImplementedError
+
+
+class Square(ShapeInterface):
+    def __init__(self, length: int):
+        self.length = length
+    
+    def area(self) -> float:
+        return self.length ** 2
+
+
+class Circle(ShapeInterface):
+    def __init__(self, radius: int):
+        self.radius = radius
+
+    def area(self) -> float:
+        return math.pi * (self.radius ** 2)
+
 
 class AreaCalculator:
     def __init__(self, shapes: list):
         self.shapes = shapes
 
     def sum(self):
-
         sum_area = 0
 
         for shape in self.shapes:

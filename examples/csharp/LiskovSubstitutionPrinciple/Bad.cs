@@ -1,9 +1,44 @@
 using System;
 using System.Text.Json;
-using Model;
 
 namespace LSP.Bad
 {
+    public interface IShape
+    {
+        double Area();
+    }
+
+    public class Circle: IShape
+    {
+        public int Radius { get; private set; }
+
+        public Circle(int radius)
+        {
+            this.Radius = radius;
+        }
+
+        public double Area()
+        {
+            return Math.PI * Math.Pow(this.Radius, 2);
+        }
+    }
+
+    public class Square: IShape
+    {
+        public int Length { get; private set; }
+
+        public Square(int length)
+        {
+            this.Length = length;
+        }
+
+        public double Area()
+        {
+            return this.Length * this.Length;
+        }
+
+    }
+
     public class AreaCalculator
     {
         private List<IShape> shapes = null;
@@ -15,9 +50,6 @@ namespace LSP.Bad
         public double Sum()
         {
             double sumArea = 0.0;
-
-            if (this.shapes == null)
-                return 0;
             
             foreach (var shape in this.shapes)
                 if (shape is IShape)

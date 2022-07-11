@@ -1,21 +1,29 @@
-import sys
-import os
+# import sys
+# import os
 
-sys.path.append(os.path.abspath(os.path.join(
-    os.path.dirname(__file__), '..')
-))
+# sys.path.append(os.path.abspath(os.path.join(
+#     os.path.dirname(__file__), '..')
+# ))
 
 import math
 import json
-from models.Circle import Circle
-from models.Square import Square
+
+
+class Square:
+    def __init__(self, length: int):
+        self.length = length
+
+
+class Circle:
+    def __init__(self, radius: int):
+        self.radius = radius
+
 
 class AreaCalculator:
     def __init__(self, shapes: list):
         self.shapes = shapes
 
     def sum(self):
-
         sum_area = 0
 
         for shape in self.shapes:
@@ -26,6 +34,7 @@ class AreaCalculator:
 
         return sum_area
 
+
 class SumCalculatorOutputter:
     def __init__(self, calculator: AreaCalculator):
         self.calculator = calculator
@@ -35,6 +44,7 @@ class SumCalculatorOutputter:
 
     def Message(self) -> str:
         return f"Sum of the areas of provided shapes: {self.calculator.sum():.2f}"
+
 
 '''
 Here is an example with a collection of three shapes:

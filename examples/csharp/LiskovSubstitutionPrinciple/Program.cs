@@ -1,7 +1,4 @@
-﻿using Model;
-
-
-/**
+﻿/**
 Here is an example with a collection of three shapes:
 
 a circle with a radius of 2
@@ -9,16 +6,13 @@ a square with a length of 5
 a second square with a length of 6
 **/
 
-List<IShape> shapes = new List<IShape> {
-        // new Circle(2),
-        // new Square(5),
-        // new Square(6),
-        new Cube(2)
+Console.WriteLine("Bad Flow");
+List<LSP.Bad.IShape> shapes = new List<LSP.Bad.IShape> {
+        new LSP.Bad.Circle(2),
+        new LSP.Bad.Square(5),
+        new LSP.Bad.Square(6)
     };
 
-
-// bad flow
-Console.WriteLine("Bad Flow");
 var badCalculator = new LSP.Bad.AreaCalculator(shapes);
 var badOutputter = new LSP.Bad.SumCalculatorOutputter(badCalculator);
 
@@ -29,8 +23,19 @@ Console.WriteLine(badOutputter.Message());
 // good flow
 Console.WriteLine("Good Flow");
 
-var goodVolumeCalculator = new LSP.Good.VolumeCalculator(shapes);
-var goodOutputter = new LSP.Good.SumCalculatorOutputter(goodVolumeCalculator);
+List<LSP.Good.IShape> gShapes = new List<LSP.Good.IShape> {
+        new LSP.Good.Circle(2),
+        new LSP.Good.Square(5),
+        new LSP.Good.Square(6)
+    };
 
-Console.WriteLine(goodOutputter.JSON());
-Console.WriteLine(goodOutputter.Message());
+var goodAreaCalculator = new LSP.Good.AreaCalculator(gShapes);
+var goodAreaOutputter = new LSP.Good.SumCalculatorOutputter(goodAreaCalculator);
+
+var goodVolumeCalculator = new LSP.Good.VolumeCalculator(gShapes);
+var goodVolumeOutputter = new LSP.Good.SumCalculatorOutputter(goodVolumeCalculator);
+
+Console.WriteLine(goodAreaOutputter.JSON());
+Console.WriteLine(goodAreaOutputter.Message());
+Console.WriteLine(goodVolumeOutputter.JSON());
+Console.WriteLine(goodVolumeOutputter.Message());

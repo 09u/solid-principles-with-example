@@ -1,14 +1,23 @@
-import sys
-import os
+# import sys
+# import os
 
-sys.path.append(os.path.abspath(os.path.join(
-    os.path.dirname(__file__), '..')
-))
+# sys.path.append(os.path.abspath(os.path.join(
+#     os.path.dirname(__file__), '..')
+# ))
 
 import math
 from matplotlib.pyplot import isinteractive
-from models.Circle import Circle
-from models.Square import Square
+
+
+class Square:
+    def __init__(self, length: int):
+        self.length = length
+
+
+class Circle:
+    def __init__(self, radius: int):
+        self.radius = radius
+
 
 class AreaCalculator:
     def __init__(self, shapes: list):
@@ -28,7 +37,6 @@ class AreaCalculator:
 
     def output(self) -> str:
         return f"Sum of the areas of provided shapes: {self.sum():.2f}"
-
 
 
 '''

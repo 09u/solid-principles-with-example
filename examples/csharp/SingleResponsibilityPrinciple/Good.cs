@@ -1,13 +1,32 @@
 using System;
 using System.Text.Json;
-using Model;
 
 namespace SRP.Good
 {
+    public class Circle
+    {
+        public int Radius { get; private set; }
+
+        public Circle(int radius)
+        {
+            this.Radius = radius;
+        }
+    }
+
+    public class Square
+    {
+        public int Length { get; private set; }
+
+        public Square(int length)
+        {
+            this.Length = length;
+        }
+    }
+
     public class AreaCalculator
     {
-        private List<IShape> shapes = null;
-        public AreaCalculator(List<IShape> shapes)
+        private List<object> shapes = null;
+        public AreaCalculator(List<object> shapes)
         {
             this.shapes = shapes;
         }
@@ -19,11 +38,11 @@ namespace SRP.Good
             if (this.shapes == null)
                 return 0;
             
-            foreach (IShape shape in this.shapes)
+            foreach (var shape in this.shapes)
             {
-                if (shape is Square)
+                if (shape.GetType() == typeof(Square))
                     sumArea += Math.Pow(((Square)shape).Length, 2);
-                if (shape is Circle)
+                if (shape.GetType() == typeof(Circle))
                     sumArea += Math.PI * Math.Pow(((Circle)shape).Radius, 2);
             }
             

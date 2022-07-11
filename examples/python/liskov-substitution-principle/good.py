@@ -1,16 +1,35 @@
-import sys
-import os
+# import sys
+# import os
 
-sys.path.append(os.path.abspath(os.path.join(
-    os.path.dirname(__file__), '..')
-))
+# sys.path.append(os.path.abspath(os.path.join(
+#     os.path.dirname(__file__), '..')
+# ))
 
+import abc
 import math
 import json
-from models.ShapeInterface import ShapeInterface
-from models.ThreeDimensionalShapeInterface import ThreeDimensionalShapeInterface
-from models.Circle import Circle
-from models.Square import Square
+
+
+class ShapeInterface(metaclass=abc.ABCMeta):
+    def area(self)->float:
+        raise NotImplementedError
+
+
+class Square(ShapeInterface):
+    def __init__(self, length: int):
+        self.length = length
+    
+    def area(self) -> float:
+        return self.length ** 2
+
+
+class Circle(ShapeInterface):
+    def __init__(self, radius: int):
+        self.radius = radius
+
+    def area(self) -> float:
+        return math.pi * (self.radius ** 2)
+
 
 class AreaCalculator:
     def __init__(self, shapes: list):
@@ -28,16 +47,6 @@ class AreaCalculator:
         return sum_area
 
 
-class SumCalculatorOutputter:
-    def __init__(self, calculator: AreaCalculator):
-        self.calculator = calculator
-    
-    def JSON(self):
-        return json.dumps({'sum': self.calculator.sum()}, sort_keys=True)        
-
-    def Message(self) -> str:
-        return f"Sum of the areas of provided shapes: {self.calculator.sum():.2f}"
-
 class VolumeCalculator(AreaCalculator):
     def __init__(self, shapes: list):
         super().__init__(shapes)
@@ -52,6 +61,17 @@ class VolumeCalculator(AreaCalculator):
                 raise SystemError
 
         return vol_sum
+
+
+class SumCalculatorOutputter:
+    def __init__(self, calculator: AreaCalculator):
+        self.calculator = calculator
+    
+    def JSON(self):
+        return json.dumps({'sum': self.calculator.sum()}, sort_keys=True)        
+
+    def Message(self) -> str:
+        return f"Sum of the areas of provided shapes: {self.calculator.sum():.2f}"
         
 
 '''
@@ -68,8 +88,13 @@ shapes = [
   Square(6),
 ]
 
-areas = VolumeCalculator(shapes)
-output = SumCalculatorOutputter(areas)
+areas = AreaCalculator(shapes)
+output0 = SumCalculatorOutputter(areas)
 
-print(output.JSON())
-print(output.Message())
+volumes = VolumeCalculator(shapes)
+output1 = SumCalculatorOutputter(volumes)
+
+print(output0.JSON())
+print(output0.Message())
+print(output1.JSON())
+print(output1.Message())
